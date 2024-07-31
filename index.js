@@ -1,22 +1,30 @@
 const ship = document.getElementById("ship");
 const board = document.getElementById("board");
-let canCreateNextBullet = true;
 
-const bulletSpeed = 5; // Bullet Speed
+let canCreateNextBullet = true; // Can create Ship Bullet
+let canCreateNextBullets = true; // Can create Enemy Ship Bullet
+
+const bulletSpeed = 5; // Ship Bullet Speed
+const bulletSpeeds = 5; // Enemy Ship Bullet Speed
+
 let bulletDamage = 1; // Bullet Damage
-let shootingSpeed = 500; // Shooting Speed
+let shootingSpeed = 500; // Ship Shooting Speed
+let shootingSpeeds = 500; // Enemy Ship Shooting Speed
 
 let shipSpeed = 2; // Ship Speed
+let shipHealth = 1; // Ship Health
 
 let asteroidSpawnRate = 1250; // Asteroid Spawn Rate
-let asteroidMoveSpeed = 150; // Asteroid Move Speed
+let asteroidMoveSpeed = 200; // Asteroid Move Speed
 let asteroidDestroyedCount = 0; // Asteroids Destroyed Count
 let asteroidGenerationInterval; // Asteroids Generation Interval
 let asteroidMovementInterval; // Asteroids Movement Interval
-let asteroidHealth = 1; // Asteroid Health
+let asteroidHealth = 2; // Asteroid Health
 
 let enemyShipGenerationInterval; // Enemy Ship Generation Interval
-let enemyShipHealth = 30; // Enemy Ship Health
+let enemyShipHealth = 25; // Enemy Ship Health
+
+const shootInterval = 2000; // Enemy Ship Shooting Interval
 
 // Controller object to manage keys
 const controller = {
@@ -26,9 +34,9 @@ const controller = {
 };
 
 function spawnBossIf() {
-  // Check if X asteroids have been destroyed
-  if (asteroidDestroyedCount >= 20) {
-    // Stop asteroid intervals
+  // Check if X Asteroids have been destroyed
+  if (asteroidDestroyedCount >= 10) {
+    // Stop Asteroid intervals
     clearInterval(asteroidGenerationInterval);
     clearInterval(asteroidMovementInterval);
 
@@ -36,7 +44,7 @@ function spawnBossIf() {
     while (asteroids.length > 0) {
       asteroids[0].remove();
     }
-    // Start generating enemy ships
+
     startGeneratingEnemyShips();
     startMovingEnemyShips();
 
@@ -44,7 +52,7 @@ function spawnBossIf() {
     return;
   }
 }
-// Function to move ship left
+// Function to move Ship Left
 function moveShipLeft() {
   let left = parseInt(window.getComputedStyle(ship).getPropertyValue("left"));
   if (left > 2) {
@@ -52,7 +60,7 @@ function moveShipLeft() {
   }
 }
 
-// Function to move ship right
+// Function to move Ship Right
 function moveShipRight() {
   let left = parseInt(window.getComputedStyle(ship).getPropertyValue("left"));
   if (left < 548) {
@@ -60,7 +68,7 @@ function moveShipRight() {
   }
 }
 
-// Function to shoot a bullet
+// Function to Shoot a Bullet
 function shootBullet() {
   if (!canCreateNextBullet) return;
 
@@ -78,6 +86,8 @@ function shootBullet() {
   }, shootingSpeed);
 
   board.appendChild(bullet);
+
+  // Move Bullet Up
   let moveBullet = setInterval(() => {
     let bulletBottom = parseInt(
       window.getComputedStyle(bullet).getPropertyValue("bottom")
@@ -97,12 +107,16 @@ function shootBullet() {
           bulletBound.top <= asteroidBound.bottom
         ) {
           let health = parseInt(asteroid.getAttribute("health"));
+
           health -= bulletDamage;
-          console.log(health);
+
+          console.log("asteroidhp" + health);
           if (health <= 0) {
             asteroid.parentElement.removeChild(asteroid);
             asteroidDestroyedCount++;
             spawnBossIf();
+          } else {
+            asteroid.setAttribute("health", health);
           }
           board.removeChild(bullet);
           clearInterval(moveBullet);
@@ -127,8 +141,10 @@ function shootBullet() {
           board.removeChild(bullet);
           clearInterval(moveBullet);
           let health = parseInt(enemyShip.getAttribute("health"));
+
           health -= bulletDamage;
-          console.log(health);
+
+          console.log("enemyshiphp" + health);
           if (health <= 0) {
             enemyShip.parentElement.removeChild(enemyShip);
             startGeneratingAsteroids();
@@ -141,8 +157,8 @@ function shootBullet() {
       }
     }
 
-    // Move bullet
-    if (bulletBottom >= board.offsetHeight - 20) {
+    // Ship Bullet max Height
+    if (bulletBottom >= board.offsetHeight - 25) {
       board.removeChild(bullet);
       clearInterval(moveBullet);
       return;
@@ -152,21 +168,105 @@ function shootBullet() {
   });
 }
 
-// Event listener keydown
+// Function to Enemy Ship Shoot a Bullet
+function shootEnemyBullet() {
+  ship.setAttribute("health", shipHealth);
+  let enemyShips = document.getElementsByClassName("enemyShip");
+  if (enemyShips.length === 0) {
+    return;
+  }
+  let enemyShip = enemyShips[0];
+
+  if (!canCreateNextBullets) return;
+
+  let enemyShipRect = enemyShip.getBoundingClientRect();
+  let enemyBullet = document.createElement("div");
+  enemyBullet.classList.add("enemyBullet");
+  let bulletWidth = 6;
+  let bulletHeight = 40;
+
+  // Change bullet's horizontal position
+  enemyBullet.style.left = `${
+    enemyShipRect.left + enemyShipRect.width / 2 - bulletWidth / 2 - 445
+  }px`;
+
+  // Change bullet's vertical position
+  enemyBullet.style.top = `${
+    enemyShipRect.top + enemyShipRect.height / 2 - bulletHeight / 2 + 15
+  }px`;
+
+  board.appendChild(enemyBullet);
+
+  canCreateNextBullets = false;
+  setTimeout(() => {
+    canCreateNextBullets = true;
+  }, shootingSpeeds);
+
+  // Move Bullet Down
+  let moveBullet = setInterval(() => {
+    let bulletTop = parseInt(
+      window.getComputedStyle(enemyBullet).getPropertyValue("top")
+    );
+
+    // Check for collision Bullet with Ship
+    let ship = document.getElementById("ship");
+    if (ship) {
+      let shipBound = ship.getBoundingClientRect();
+      let bulletBound = enemyBullet.getBoundingClientRect();
+
+      if (
+        bulletBound.left <= shipBound.right &&
+        bulletBound.right >= shipBound.left &&
+        bulletBound.bottom >= shipBound.top
+      ) {
+        board.removeChild(enemyBullet);
+        clearInterval(moveBullet);
+        let health = parseInt(ship.getAttribute("health"));
+
+        health -= bulletDamage;
+        console.log("shiphp" + health);
+        if (health <= 0) {
+          gameOver();
+          return;
+        } else {
+          ship.setAttribute("health", health);
+        }
+        return;
+      }
+    }
+
+    // Enemy Ship Bullet max Height
+    if (bulletTop >= board.offsetHeight - 34) {
+      board.removeChild(enemyBullet);
+      clearInterval(moveBullet);
+      return;
+    }
+
+    enemyBullet.style.top = bulletTop + bulletSpeeds + "px"; // Bullet Speed downwards
+  }, 20);
+}
+
+// Function to Enemy Ship Start Auto Shooting
+function startAutomaticShooting() {
+  console.log("Starting automatic shooting...");
+  setInterval(shootEnemyBullet, shootInterval); // Shooting every 1000ms
+}
+
+// Event listener Keydown
 document.addEventListener("keydown", (e) => {
   if (controller[e.keyCode]) {
     controller[e.keyCode].pressed = true;
   }
 });
 
-// Event listener keyup
+// Event listener Keyup
 document.addEventListener("keyup", (e) => {
   if (controller[e.keyCode]) {
     controller[e.keyCode].pressed = false;
   }
 });
 
-// Function to execute key actions
+// Function to execute Key actions
 function executeMoves() {
   Object.keys(controller).forEach((key) => {
     if (controller[key].pressed) {
@@ -175,7 +275,7 @@ function executeMoves() {
   });
 }
 
-// Animation loop
+// Animation Loop
 function animate() {
   executeMoves();
   window.requestAnimationFrame(animate);
@@ -200,7 +300,7 @@ function startGeneratingAsteroids() {
   }, asteroidSpawnRate);
 }
 
-// Function to move asteroids
+// Function to Move Asteroids
 function startMovingAsteroids() {
   asteroidMovementInterval = setInterval(() => {
     let asteroids = document.getElementsByClassName("asteroids");
@@ -230,30 +330,31 @@ function startMovingAsteroids() {
   }, asteroidMoveSpeed);
 }
 
-// Function to generate enemy ships
+// Function to Generate Enemy Ships
 function startGeneratingEnemyShips() {
   let enemyShip = document.createElement("div");
   enemyShip.classList.add("enemyShip");
   enemyShip.style.left = 240 + "px";
   enemyShip.setAttribute("health", enemyShipHealth);
   board.appendChild(enemyShip);
+  startAutomaticShooting();
 }
 
 let isMovingLeft = true;
 let isMovingUp = true;
 let intervalId;
-let moveDistance = 1; // Default distance moved each step
-let moveInterval = 5000; // Interval time for movement in milliseconds
-let changeDirectionInterval = 2000; // Default time before changing direction
+let moveDistance = 0;
+let moveInterval = 0;
+let changeDirectionInterval = 0;
 
-const boundaryWidth = 600; // Width boundary in pixels
-const boundaryHeight = 500; // Height boundary in pixels
+const boundaryWidth = 600; // Width boundar
+const boundaryHeight = 500; // Height boundary
 
 function startMovingEnemyShips() {
   let enemyShips = document.getElementsByClassName("enemyShip");
 
   if (enemyShips.length === 0) {
-    return; // Ensure there's at least one enemy ship
+    return;
   }
 
   let enemyShip = enemyShips[0];
@@ -268,48 +369,42 @@ function startMovingEnemyShips() {
 
   function updatePosition() {
     if (isMovingLeft) {
-      enemyShipLeft -= moveDistance; // Move left
+      enemyShipLeft -= moveDistance;
     } else {
-      enemyShipLeft += moveDistance; // Move right
+      enemyShipLeft += moveDistance;
     }
 
     if (isMovingUp) {
-      enemyShipTop -= moveDistance; // Move up
+      enemyShipTop -= moveDistance;
     } else {
-      enemyShipTop += moveDistance; // Move down
+      enemyShipTop += moveDistance;
     }
 
     // Boundary checks
     if (enemyShipLeft < 0) {
-      enemyShipLeft = 0; // Prevent moving out of left boundary
-      isMovingLeft = !isMovingLeft; // Change direction
+      enemyShipLeft = 0;
+      isMovingLeft = !isMovingLeft;
     } else if (enemyShipLeft + enemyShip.offsetWidth > boundaryWidth) {
-      enemyShipLeft = boundaryWidth - enemyShip.offsetWidth; // Prevent moving out of right boundary
-      isMovingLeft = !isMovingLeft; // Change direction
+      enemyShipLeft = boundaryWidth - enemyShip.offsetWidth;
+      isMovingLeft = !isMovingLeft;
     }
 
     if (enemyShipTop < 0) {
-      enemyShipTop = 0; // Prevent moving out of top boundary
-      isMovingUp = !isMovingUp; // Change direction
+      enemyShipTop = 0;
+      isMovingUp = !isMovingUp;
     } else if (enemyShipTop + enemyShip.offsetHeight > boundaryHeight) {
-      enemyShipTop = boundaryHeight - enemyShip.offsetHeight; // Prevent moving out of bottom boundary
-      isMovingUp = !isMovingUp; // Change direction
+      enemyShipTop = boundaryHeight - enemyShip.offsetHeight;
+      isMovingUp = !isMovingUp;
     }
-
-    // Ensure the `left` and `top` values are updated correctly
     enemyShip.style.left = enemyShipLeft + "px";
     enemyShip.style.top = enemyShipTop + "px";
-
-    /*console.log(
-      `Position X: ${enemyShipLeft}px, Position Y: ${enemyShipTop}px, Moving Left: ${isMovingLeft}, Moving Up: ${isMovingUp}`
-    );*/
   }
 
   function changeMovement() {
     isMovingLeft = Math.random() < 0.5; // Randomly decide direction left/right
     isMovingUp = Math.random() < 0.5; // Randomly decide direction up/down
-    moveDistance = 1 + Math.random() * 5; // Random distance between 5 and 25 pixels
-    moveInterval = 50 + Math.random() * 50; // Random interval between 50ms and 100ms
+    moveDistance = 1 + Math.random() * 5; /// VERY IMPORTANT /// Random distance between 5 and 25 pixels
+    moveInterval = 50 + Math.random() * 50; // VERY IMPORTANT //// Random interval between 50ms and 100ms
 
     if (intervalId) {
       clearInterval(intervalId);
@@ -319,12 +414,10 @@ function startMovingEnemyShips() {
       updatePosition();
     }, moveInterval);
 
-    // Schedule next direction change
+    // VERY IMPORTANT //// Schedule next direction change
     setTimeout(changeMovement, 1000 + Math.random() * 2000);
   }
-  changeMovement(); // Start movement
+  changeMovement();
 }
-
-// Start the game by generating and moving asteroids
 startGeneratingAsteroids();
 startMovingAsteroids();

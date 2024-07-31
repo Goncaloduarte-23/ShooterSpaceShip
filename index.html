@@ -31,6 +31,7 @@
       background-repeat: no-repeat;
       left: 275px;
       bottom: 0px;
+      border: 1px solid red;
     }
 
     .enemyShip {
@@ -42,6 +43,7 @@
       background-size: 100% 100%;
       background-repeat: no-repeat;
       filter: sepia(40%) saturate(700%) brightness(90%) hue-rotate(50deg);
+      border: 1px solid red;
     }
 
     .asteroids {
@@ -52,17 +54,28 @@
       background: url(./Images/asteroids.png);
       background-size: contain;
       background-repeat: no-repeat;
+      border: 1px solid red;
     }
-
+    /* border: 1px solid red;*/
     .bullets {
       position: absolute;
       bottom: 40px;
-      width: 3px;
-      height: 20px;
+      width: 4px;
+      height: 26px;
       background: url(./Images/bullet.png);
       background-size: contain;
       background-repeat: no-repeat;
       filter: hue-rotate(195deg);
+    }
+
+    .enemyBullet {
+      position: absolute;
+      width: 6px;
+      height: 40px;
+      background: url(./Images/enemyBullet.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+      filter: hue-rotate(80deg);
     }
   </style>
   <script src="./index.js" defer></script>
