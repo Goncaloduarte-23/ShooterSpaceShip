@@ -9,7 +9,7 @@
     body {
       width: 100%;
       overflow: hidden;
-      background: url(/Images/space.jpg);
+      background: url(./Images/space.jpg);
       background-size: cover;
     }
 
@@ -26,12 +26,11 @@
       position: absolute;
       width: 50px;
       height: 50px;
-      background: url(/Images/ship.png);
+      background: url(./Images/ship.png);
       background-size: 100% 100%;
       background-repeat: no-repeat;
       left: 275px;
       bottom: 0px;
-      border: 1px solid red;
     }
 
     .enemyShip {
@@ -39,11 +38,10 @@
       top: 0px;
       width: 120px;
       height: 120px;
-      background: url(/Images/enemyship.png);
+      background: url(./Images/enemyShip.png);
       background-size: 100% 100%;
       background-repeat: no-repeat;
       filter: sepia(40%) saturate(700%) brightness(90%) hue-rotate(50deg);
-      border: 1px solid red;
     }
 
     .asteroids {
@@ -51,10 +49,9 @@
       top: 0px;
       width: 50px;
       height: 50px;
-      background: url(/Images/asteroids.png);
+      background: url(./Images/asteroids.png);
       background-size: contain;
       background-repeat: no-repeat;
-      border: 1px solid red;
     }
 
     .bullets {
@@ -62,14 +59,13 @@
       bottom: 40px;
       width: 3px;
       height: 20px;
-      background: url(/Images/bullet.png);
+      background: url(./Images/bullet.png);
       background-size: contain;
       background-repeat: no-repeat;
       filter: hue-rotate(195deg);
-      border: 1px solid red;
     }
   </style>
-  <script src="index.js" defer></script>
+  <script src="./index.js" defer></script>
   <body>
     <div id="board">
       <div id="ship"></div>

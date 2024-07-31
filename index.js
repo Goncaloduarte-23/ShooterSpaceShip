@@ -4,21 +4,19 @@ let canCreateNextBullet = true;
 
 const bulletSpeed = 5; // Bullet Speed
 let bulletDamage = 1; // Bullet Damage
-let shootingSpeed = 1000; // Shooting Speed
+let shootingSpeed = 500; // Shooting Speed
 
 let shipSpeed = 2; // Ship Speed
 
-let asteroidSpawnRate = 2000; // Asteroid Spawn Rate
-let asteroidMoveSpeed = 100; // Asteroid Move Speed
+let asteroidSpawnRate = 1250; // Asteroid Spawn Rate
+let asteroidMoveSpeed = 150; // Asteroid Move Speed
 let asteroidDestroyedCount = 0; // Asteroids Destroyed Count
 let asteroidGenerationInterval; // Asteroids Generation Interval
 let asteroidMovementInterval; // Asteroids Movement Interval
 let asteroidHealth = 1; // Asteroid Health
 
-const enemyShipSpawnRate = 500; // Enemy Ship Spawn Rate
-const enemyShipMoveSpeed = 300; // Enemy Ship Movement Rate
 let enemyShipGenerationInterval; // Enemy Ship Generation Interval
-let enemyShipHealth = 10; // Enemy Ship Health
+let enemyShipHealth = 30; // Enemy Ship Health
 
 // Controller object to manage keys
 const controller = {
@@ -29,7 +27,7 @@ const controller = {
 
 function spawnBossIf() {
   // Check if X asteroids have been destroyed
-  if ((asteroidDestroyedCount = 4)) {
+  if (asteroidDestroyedCount >= 20) {
     // Stop asteroid intervals
     clearInterval(asteroidGenerationInterval);
     clearInterval(asteroidMovementInterval);
@@ -326,38 +324,6 @@ function startMovingEnemyShips() {
   }
   changeMovement(); // Start movement
 }
-
-// Function to move enemy ships
-/*function startMovingEnemyShips() {
-  setInterval(() => {
-    let enemyShips = document.getElementsByClassName("enemyShip");
-
-    for (let i = 0; i < enemyShips.length; i++) {
-      let enemyShip = enemyShips[i];
-      let enemyShipTop = parseInt(
-        window.getComputedStyle(enemyShip).getPropertyValue("top")
-      );
-      let enemyShipBound = enemyShip.getBoundingClientRect();
-      let shipBound = ship.getBoundingClientRect();
-
-      if (
-        enemyShipBound.left <= shipBound.right &&
-        enemyShipBound.right >= shipBound.left &&
-        enemyShipBound.top <= shipBound.bottom &&
-        enemyShipBound.bottom >= shipBound.top
-      ) {
-        gameOver();
-        return;
-      }
-
-      if (enemyShipTop >= 480) {
-        enemyShip.remove();
-      } else {
-        enemyShip.style.top = enemyShipTop + 7 + "px";
-      }
-    }
-  }, enemyShipMoveSpeed);
-}*/
 
 // Start the game by generating and moving asteroids
 startGeneratingAsteroids();
