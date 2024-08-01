@@ -2,86 +2,134 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ShooterSpaceShip</title>
+    <title>Game Instructions & Start Menu</title>
+    <style>
+      body {
+        width: 100%;
+        overflow: hidden;
+        background: url(./Images/background.png);
+        background-size: cover;
+      }
+
+      #board {
+        position: relative;
+        width: 600px;
+        height: 600px;
+        margin: 40px auto;
+        border: 2px solid white;
+        background: url(./Images/StartMenu.png);
+        background-size: cover;
+        filter: grayscale(40%);
+      }
+
+      .content-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        text-align: center;
+      }
+
+      .instructions-container {
+        margin-bottom: 20px;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.93);
+        color: white;
+        border-radius: 10px;
+        font-size: 16px;
+        display: none;
+      }
+
+      .instructions-container p {
+        margin: 10px 0;
+      }
+
+      .start-button-container,
+      .help-button-container,
+      .back-button-container {
+        margin-top: 20px;
+      }
+
+      .start-button,
+      .help-button,
+      .back-button {
+        padding: 10px 20px;
+        font-size: 20px;
+        color: white;
+        background-color: black;
+        border: 2px solid white;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: center;
+        display: inline-block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .back-button-container {
+        display: none;
+      }
+
+      kbd {
+        background-color: #eee;
+        border-radius: 3px;
+        border: 1px solid #b4b4b4;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
+          0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
+        color: #333;
+        display: inline-block;
+        font-size: 0.85em;
+        font-weight: 700;
+        line-height: 1;
+        padding: 2px 4px;
+        white-space: nowrap;
+      }
+    </style>
   </head>
-  <style>
-    body {
-      width: 100%;
-      overflow: hidden;
-      background: url(./Images/space.jpg);
-      background-size: cover;
-    }
-
-    #board {
-      position: relative;
-      width: 600px;
-      height: 600px;
-      margin: 40px auto;
-      border: 2px solid white;
-      background: rgba(0, 0, 0, 0.7);
-    }
-
-    #ship {
-      position: absolute;
-      width: 50px;
-      height: 50px;
-      background: url(./Images/ship.png);
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      left: 275px;
-      bottom: 0px;
-      border: 1px solid red;
-    }
-
-    .enemyShip {
-      position: absolute;
-      top: 0px;
-      width: 120px;
-      height: 120px;
-      background: url(./Images/enemyShip.png);
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      filter: sepia(40%) saturate(700%) brightness(90%) hue-rotate(50deg);
-      border: 1px solid red;
-    }
-
-    .asteroids {
-      position: absolute;
-      top: 0px;
-      width: 50px;
-      height: 50px;
-      background: url(./Images/asteroids.png);
-      background-size: contain;
-      background-repeat: no-repeat;
-      border: 1px solid red;
-    }
-    /* border: 1px solid red;*/
-    .bullets {
-      position: absolute;
-      bottom: 40px;
-      width: 4px;
-      height: 26px;
-      background: url(./Images/bullet.png);
-      background-size: contain;
-      background-repeat: no-repeat;
-      filter: hue-rotate(195deg);
-    }
-
-    .enemyBullet {
-      position: absolute;
-      width: 6px;
-      height: 40px;
-      background: url(./Images/enemyBullet.png);
-      background-size: contain;
-      background-repeat: no-repeat;
-      filter: hue-rotate(80deg);
-    }
-  </style>
-  <script src="./index.js" defer></script>
-  <body>
+  <body id="page-startgame">
     <div id="board">
-      <div id="ship"></div>
+      <div class="content-container">
+        <div class="instructions-container" id="instructions">
+          <p><strong>INSTRUCTIONS:</strong></p>
+          <p><kbd>␣</kbd> to shoot</p>
+          <p><kbd>←</kbd><kbd>→</kbd> Keys to move left/right</p>
+          <p>Shoot Asteroids to get more Attack Speed</p>
+          <p>Kill Bosses to get extra Health</p>
+          <p>Don't get hit by anything</p>
+          <p>Good luck!</p>
+        </div>
+        <div class="start-button-container">
+          <a href="game.html" class="start-button">START</a>
+        </div>
+        <div class="help-button-container">
+          <button class="help-button" onclick="showHelp()">HELP</button>
+        </div>
+        <div class="back-button-container" id="back-container">
+          <button class="back-button" onclick="hideHelp()">BACK</button>
+        </div>
+      </div>
     </div>
+    <script>
+      function showHelp() {
+        document.getElementById("instructions").style.display = "block";
+        document.getElementById("back-container").style.display = "block";
+        document.querySelector(".start-button-container").style.display =
+          "none";
+        document.querySelector(".help-button-container").style.display = "none";
+      }
+
+      function hideHelp() {
+        document.getElementById("instructions").style.display = "none";
+        document.getElementById("back-container").style.display = "none";
+        document.querySelector(".start-button-container").style.display =
+          "block";
+        document.querySelector(".help-button-container").style.display =
+          "block";
+      }
+    </script>
   </body>
 </html>

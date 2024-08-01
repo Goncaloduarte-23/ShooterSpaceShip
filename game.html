@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShooterSpaceShip</title>
+  </head>
+  <style>
+    body {
+      width: 100%;
+      overflow: hidden;
+      background: url(./Images/background.png);
+      background-size: cover;
+    }
+
+    #board {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      margin: 40px auto;
+      border: 2px solid white;
+      background: rgba(0, 0, 0, 0.837);
+    }
+
+    #container {
+      position: relative;
+      width: 600px;
+      height: 100%;
+      margin: 40px auto;
+      caret-color: transparent;
+    }
+
+    #ship {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: url(./Images/ship.png);
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      left: 275px;
+      bottom: 0px;
+    }
+
+    #shipAttackSpeed {
+      position: absolute;
+      left: 100px;
+      font-size: 20px;
+      color: #fff;
+      background-color: #000;
+      padding: 5px 10px;
+      border-radius: 20px;
+    }
+
+    #shipHealth {
+      position: absolute;
+      font-size: 20px;
+      color: #fff;
+      background-color: #000;
+      padding: 5px 10px;
+      border-radius: 20px;
+    }
+
+    .enemyShip {
+      position: absolute;
+      top: 0px;
+      width: 120px;
+      height: 120px;
+      background: url(./Images/enemyShip.png);
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      filter: grayscale(90%);
+    }
+
+    .bossShip {
+      position: absolute;
+      top: 0px;
+      width: 120px;
+      height: 120px;
+      background: url(./Images/enemyShip2.png);
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      filter: grayscale(90%);
+    }
+
+    .asteroids {
+      position: absolute;
+      top: 0px;
+      width: 50px;
+      height: 50px;
+      background: url(./Images/asteroids.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    .bullets {
+      position: absolute;
+      bottom: 40px;
+      width: 4px;
+      height: 26px;
+      background: url(./Images/bullet.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+      filter: hue-rotate(195deg);
+    }
+
+    .enemyBullet {
+      position: absolute;
+      width: 6px;
+      height: 40px;
+      background: url(./Images/enemyBullet.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+      filter: grayscale(100%);
+    }
+
+    #upgradeMessage,
+    #bossMessage {
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      border-radius: 5px;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      z-index: 1000;
+    }
+
+    #upgradeMessage.show,
+    #bossMessage.show {
+      opacity: 1;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #score {
+      position: absolute;
+      left: 300px;
+      font-size: 20px;
+      color: #fff;
+      background-color: #000;
+      padding: 5px 10px;
+      border-radius: 20px;
+    }
+  </style>
+  <script src="./game.js" defer></script>
+  <body>
+    <div id="container">
+      <div id="shipAttackSpeed">Attack Speed: 2000</div>
+      <div id="score">Score: 0</div>
+      <div id="shipHealth">Health: 1</div>
+      <div id="board">
+        <div id="ship"></div>
+        <div id="upgradeMessage" class="hidden">WEAPON UPGRADE!</div>
+        <div id="bossMessage" class="hidden">BOSS FIGHT!</div>
+      </div>
+    </div>
+    <script>
+      window.onload = function () {
+        var score = localStorage.getItem("score");
+        if (score !== null) {
+          document.getElementById("score").textContent = score;
+        } else {
+          document.getElementById("score").textContent = "No score available";
+        }
+      };
+    </script>
+  </body>
+</html>
