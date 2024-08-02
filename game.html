@@ -159,15 +159,5 @@
         <div id="bossMessage" class="hidden">BOSS FIGHT!</div>
       </div>
     </div>
-    <script>
-      window.onload = function () {
-        var score = localStorage.getItem("score");
-        if (score !== null) {
-          document.getElementById("score").textContent = score;
-        } else {
-          document.getElementById("score").textContent = "No score available";
-        }
-      };
-    </script>
   </body>
 </html>

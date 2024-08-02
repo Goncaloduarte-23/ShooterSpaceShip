@@ -483,27 +483,27 @@ function startMovingEnemyShips(bossId) {
 
 function spawnBossIf() {
   // Check if X Asteroids have been destroyed
-  if (asteroidDestroyedCount == 7) {
-    // 7
+  if (asteroidDestroyedCount == 6) {
+    // 6
     triggerMessage(1);
-    shootingSpeed = 1750;
+    shootingSpeed = 1700;
     updateShipAttackSpeed();
-  } else if (asteroidDestroyedCount == 15) {
-    // 15
+  } else if (asteroidDestroyedCount == 14) {
+    // 14
     triggerMessage(1);
-    shootingSpeed = 1600;
+    shootingSpeed = 1500;
     updateShipAttackSpeed();
-  } else if (asteroidDestroyedCount == 23) {
-    // 23
+  } else if (asteroidDestroyedCount == 22) {
+    // 22
     triggerMessage(1);
-    shootingSpeed = 1450;
+    shootingSpeed = 1300;
     updateShipAttackSpeed();
-  } else if (asteroidDestroyedCount == 30) {
-    // 30
+  } else if (asteroidDestroyedCount == 28) {
+    // 28
     triggerMessage(1);
-    shootingSpeed = 1150;
+    shootingSpeed = 1100;
     updateShipAttackSpeed();
-  } else if (asteroidDestroyedCount == 35) {
+  } else if (asteroidDestroyedCount == 1) {
     // 35
     // Stop Asteroid intervals
     clearInterval(asteroidGenerationInterval);
@@ -517,28 +517,29 @@ function spawnBossIf() {
     asteroidMoveSpeed = 150;
     asteroidHealth = 2;
 
-    shootInterval = 1500;
+    shootInterval = 1350;
 
     triggerMessage(2);
     startGeneratingEnemyShips(1);
     startMovingEnemyShips(1);
-  } else if (asteroidDestroyedCount == 40) {
-    // 40
+  } else if (asteroidDestroyedCount == 39) {
+    // 39
     triggerMessage(1);
     shootingSpeed = 700;
+    shipSpeed = 3;
     updateShipAttackSpeed();
-  } else if (asteroidDestroyedCount == 50) {
-    // 50
+  } else if (asteroidDestroyedCount == 48) {
+    // 48
     triggerMessage(1);
-    shootingSpeed = 500;
+    shootingSpeed = 400;
     updateShipAttackSpeed();
-  } else if (asteroidDestroyedCount == 60) {
-    // 60
+  } else if (asteroidDestroyedCount == 57) {
+    // 57
     triggerMessage(1);
-    shootingSpeed = 350;
+    shootingSpeed = 250;
     updateShipAttackSpeed();
-  } else if (asteroidDestroyedCount == 70) {
-    // 70
+  } else if (asteroidDestroyedCount == 65) {
+    // 65
     // Stop Asteroid intervals
     clearInterval(asteroidGenerationInterval);
     clearInterval(asteroidMovementInterval);
