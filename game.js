@@ -503,7 +503,7 @@ function spawnBossIf() {
     triggerMessage(1);
     shootingSpeed = 1100;
     updateShipAttackSpeed();
-  } else if (asteroidDestroyedCount == 1) {
+  } else if (asteroidDestroyedCount == 35) {
     // 35
     // Stop Asteroid intervals
     clearInterval(asteroidGenerationInterval);
