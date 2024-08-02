@@ -12,3 +12,5 @@ Shoot Asteroids to get more Attack Speed
 Kill Bosses to get extra Health
 Don't get hit by anything
 Good luck!
+
+Give it a try: https://goncaloduarte-23.github.io/ShooterSpaceShip/game.html

@@ -486,17 +486,17 @@ function spawnBossIf() {
   if (asteroidDestroyedCount == 6) {
     // 6
     triggerMessage(1);
-    shootingSpeed = 1700;
+    shootingSpeed = 1650;
     updateShipAttackSpeed();
   } else if (asteroidDestroyedCount == 14) {
     // 14
     triggerMessage(1);
-    shootingSpeed = 1500;
+    shootingSpeed = 1450;
     updateShipAttackSpeed();
   } else if (asteroidDestroyedCount == 22) {
     // 22
     triggerMessage(1);
-    shootingSpeed = 1300;
+    shootingSpeed = 1250;
     updateShipAttackSpeed();
   } else if (asteroidDestroyedCount == 28) {
     // 28
@@ -525,13 +525,13 @@ function spawnBossIf() {
   } else if (asteroidDestroyedCount == 39) {
     // 39
     triggerMessage(1);
-    shootingSpeed = 700;
-    shipSpeed = 3;
+    shootingSpeed = 725;
+    shipSpeed = 2.5;
     updateShipAttackSpeed();
   } else if (asteroidDestroyedCount == 48) {
     // 48
     triggerMessage(1);
-    shootingSpeed = 400;
+    shootingSpeed = 425;
     updateShipAttackSpeed();
   } else if (asteroidDestroyedCount == 57) {
     // 57
@@ -549,7 +549,7 @@ function spawnBossIf() {
       asteroids[0].remove();
     }
 
-    shootInterval = 750;
+    shootInterval = 775;
 
     triggerMessage(2);
     startGeneratingEnemyShips(2);
